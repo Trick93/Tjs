@@ -81,4 +81,44 @@
     		if(new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1)? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     	return fmt;
     }
+
+    //特殊字符过滤
+    G.xssCheck  = function(str,reg){
+    	return str? str.replace(reg || /[&<">'](?:(amp|lt|quot|gt|#39|nbsp|#\d+);)?/g,function(a,b){
+	        if(b){
+	            return a;
+	        }else{
+	            return{
+	                '<':"&lt;",
+	                '&':"&amp;",
+	                '"':"&quot;",
+	                '>':"&gt;"
+	            }[a]
+	        }
+	    }): '';
+    }
+
+    //全屏和退出全屏
+    G.fullScreen = {
+    	launchFullscreen: function(element){
+    		if(element.requestFullscreen) {
+		        element.requestFullscreen();
+		     } else if(element.mozRequestFullScreen) {
+		        element.mozRequestFullScreen();
+		     } else if(element.webkitRequestFullscreen) {
+		        element.webkitRequestFullscreen();
+		     } else if(element.msRequestFullscreen) {
+		        element.msRequestFullscreen();
+		     }
+    	},
+    	exitFullscreen: function(){
+    		if(document.exitFullscreen) {
+		        document.exitFullscreen();
+		    } else if(document.mozCancelFullScreen) {
+		        document.mozCancelFullScreen();
+		    } else if(document.webkitExitFullscreen) {
+		        document.webkitExitFullscreen();
+		    }
+    	}
+    }
 })(window,document)
