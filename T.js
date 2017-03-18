@@ -65,7 +65,8 @@
 		}
 	}
 
-	//关于日期
+	/*关于日期操作*/
+	//格式化日期
     Date.prototype.Format = function(fmt){
     	var o = {
     		"M+": this.getMonth() + 1 , //月
@@ -76,12 +77,37 @@
     		"q+": Math.floor((this.getMonth() + 3) /3), //季度
     		"S": this.getMilliseconds() //毫秒
     	};
-    	if(/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    	for(var k in 0)
-    		if(new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1)? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    	for (var k in o)
+    		if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     	return fmt;
     }
+    //返回时间差
+    Date.prototype.DiffDate = function(oldTime,nowTime){
+    	if(!arguments.length) return '';
+    	var arg = arguments,
+    		now = arg[1]? arg[1]:new Date().getTime(),
+    		diffValue = now - arg[0],
+    		result = '',
 
+    		seconds = 1000,
+    		minutes = 1000*60,
+    		hours = 60 * minutes,
+    		days = hours * 24,
+
+    		_day = diffValue/days,
+    		_hours = diffValue/hours,
+    		_min = diffValue/minutes,
+    		_sec = diffValue/seconds;
+
+    		if(_day > 3) result = arg[0].Format("yyyy-MM-dd hh:mm:ss");
+    		else if(_day >=1) result = parseInt(_day) + "天前";
+    		else if(_hours>=1) result = parseInt(_hours) + "小时前";
+    		else if(_min>=1) result = parseInt(_min) + "分钟前";
+    		else result = parseInt(_sec) + "秒前";
+    		return result;
+    }
+    
     //特殊字符过滤
     G.xssCheck  = function(str,reg){
     	return str? str.replace(reg || /[&<">'](?:(amp|lt|quot|gt|#39|nbsp|#\d+);)?/g,function(a,b){
