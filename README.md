@@ -13,5 +13,5 @@ param： **objName**=>cookie的key值  **objValue**=>cookie中key的value值  
 ## **2、关于storage的操作：**<br />
 param: **name**=>storage的key值  **value**=>storage中key的value值  **mark**=>为1则存localstorage,否则sessionstorage<br />
 设置storage：`G.storage.setStorage(name,value,mark)`<br />
-获取storage：`G.storage.getStorage(name,value,mark)`<br />
-删除storage：`G.storage.clearStorage(name,value,mark)`<br />
+获取storage：`G.storage.getStorage(name,mark)`<br />
+删除storage：`G.storage.clearStorage(name,mark)`<br />
