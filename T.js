@@ -36,7 +36,7 @@
 	//关于localStorage和sessionStorage操作
 	//0代表sessionStorage，1代表localStorage
 	G.storage = {
-		setStorage: function(name,mark){
+		setStorage: function(name,value,mark){
 			if(window.localStorage){
 				if(mark){
 		            localStorage.setItem(name,value);
