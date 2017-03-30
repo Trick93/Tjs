@@ -15,3 +15,5 @@ param: **name**=>storage的key值  **value**=>storage中key的value值  **mark
 设置storage：`G.storage.setStorage(name,value,mark)`<br />
 获取storage：`G.storage.getStorage(name,mark)`<br />
 删除storage：`G.storage.clearStorage(name,mark)`<br />
+
+## **2、关于日期的操作：**<br />
