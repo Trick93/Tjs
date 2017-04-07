@@ -16,4 +16,6 @@ param: **name**=>storage的key值  **value**=>storage中key的value值  **mark
 获取storage：`G.storage.getStorage(name,mark)`<br />
 删除storage：`G.storage.clearStorage(name,mark)`<br />
 
-## **2、关于日期的操作：**<br />
+## **3、关于日期的操作：**<br />
+日期格式化：`new Date().Format("yyyy-MM-dd hh:mm:ss")`
+其中模板可以填比如("yyyy/MM/dd")
