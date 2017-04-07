@@ -19,3 +19,7 @@ param: **name**=>storage的key值  **value**=>storage中key的value值  **mark
 ## **3、关于日期的操作：**<br />
 日期格式化：`new Date().Format("yyyy-MM-dd hh:mm:ss")`
 其中模板可以填比如("yyyy/MM/dd")
+
+计算时间差：`new Date().DiffDate(oldtime,nowTime)`
+可计算到 X秒前、X分钟前、X天前(X<=3),剩下直接就是oldtime时间
+`nowTime`参数可省略
