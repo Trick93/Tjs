@@ -22,4 +22,7 @@ param: **name**=>storage的key值  **value**=>storage中key的value值  **mark
 
 计算时间差：`new Date().DiffDate(oldtime,nowTime)`
 可计算到 X秒前、X分钟前、X天前(X<=3),剩下直接就是oldtime时间
-`nowTime`参数可省略
+`nowTime`参数可省略,默认为当前时间
+
+## **4、关于特殊字符过滤的操作：**<br />
+param: **str**=>要过滤掉的字符串
