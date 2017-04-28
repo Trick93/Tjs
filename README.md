@@ -25,4 +25,5 @@ param: **name**=>storage的key值  **value**=>storage中key的value值  **mark
 `nowTime`参数可省略,默认为当前时间
 
 ## **4、关于特殊字符过滤的操作：**<br />
-param: **str**=>要过滤掉的字符串
+param: **str**=>要过滤掉的字符串  **reg**=>可以省略
+过滤操作：`G.xssCheck("<script>")`
