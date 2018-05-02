@@ -77,7 +77,52 @@ let formatOperate = {
   }
 }
 
+let storageOperate = {
+  /**
+   * 设置存储
+   * 
+   * @param {any} name 名字
+   * @param {any} value 值
+   * @param {any} mark 标记 1为localstorage 0为sessionStorage
+   */
+  setStorage(name, value, mark) {
+    if (mark) {
+      localStorage.setItem(name, value)
+    } else {
+      sessionStorage.setItem(name, value)
+    }
+  },
+  /**
+   * 获取本地存储
+   * 
+   * @param {any} name 名字
+   * @param {any} mark 标记 1为localstorage 0为sessionStorage
+   * @returns 
+   */
+  getStorage(name, mark) {
+    if (mark) {
+      return localStorage.getItem(name)
+    } else {
+      return sessionStorage.getItem(name)
+    }
+  },
+  /**
+   * 删除本地存储
+   * 
+   * @param {any} name 名字
+   * @param {any} mark 标记 1为localstorage 0为sessionStorage
+   */
+  delStorage(name, mark) {
+    if (mark) {
+      localStorage.removeItem(name)
+    } else {
+      sessionStorage.removeItem(name)
+    }
+  }
+}
+
 export {
   dateOperate,
-  formatOperate
+  formatOperate,
+  storageOperate
 }
