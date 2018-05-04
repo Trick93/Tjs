@@ -121,6 +121,12 @@ let storageOperate = {
   }
 }
 
+let objectOperate = {
+  isEmptyObject(o) {
+    return Object.keys(o).length === 0 ? true : false
+  }
+}
+
 export {
   dateOperate,
   formatOperate,
