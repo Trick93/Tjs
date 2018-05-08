@@ -130,5 +130,6 @@ let objectOperate = {
 export {
   dateOperate,
   formatOperate,
-  storageOperate
+  storageOperate,
+  objectOperate
 }
