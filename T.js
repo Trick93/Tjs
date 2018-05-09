@@ -122,6 +122,12 @@ let storageOperate = {
 }
 
 let objectOperate = {
+  /**
+   * 判断是否为空对象
+   * 
+   * @param {any} o 要判断的对象值
+   * @returns 
+   */
   isEmptyObject(o) {
     return Object.keys(o).length === 0 ? true : false
   }
