@@ -133,9 +133,60 @@ let objectOperate = {
   }
 }
 
+let filter = {
+  /**
+   * 过滤html里面的特殊字符
+   * 
+   * @param {any} str 要过滤的字符串
+   * @param {any} reg 表达式
+   * @returns str
+   */
+  htmlEscape (str, reg) {
+    return str ? str.replace(reg || /[&<">'](?:(amp|lt|quot|gt|#39|nbsp|#\d+);)?/g, function (a, b) {
+      if (b) {
+        return a
+      } else {
+        return {
+          '<': '&lt;',
+          '&': '&amp;',
+          '"': '&quot;',
+          '>': '&gt;',
+          '\'': '&#39'
+        }[a]
+      }
+    }) : ''
+  }
+}
+
+/**
+ * 字节转换
+ * @param {any} limit 字节大小
+ * @returns 转换后的
+ */
+function conver (limit) {
+  let size = ''
+  if (limit < 0.1 * 1024) { // 如果小于0.1KB转化成B
+    size = limit.toFixed(2) + 'B'
+  } else if (limit < 0.1 * 1024 * 1024) { // 如果小于0.1MB转化成KB
+    size = (limit / 1024).toFixed(2) + 'KB'
+  } else if (limit < 0.1 * 1024 * 1024 * 1024) { // 如果小于0.1GB转化成MB
+    size = (limit / (1024 * 1024)).toFixed(2) + 'MB'
+  } else { // 其他转化成GB
+    size = (limit / (1024 * 1024 * 1024)).toFixed(2) + 'GB'
+  }
+  let sizestr = size + ''
+  let len = sizestr.indexOf('.')
+  let dec = sizestr.substr(len + 1, 2)
+  if (dec === '00') { // 当小数点后为00时 去掉小数部分
+    return sizestr.substring(0, len) + sizestr.substr(len + 3, 2)
+  }
+  return sizestr
+}
+
 export {
   dateOperate,
   formatOperate,
   storageOperate,
-  objectOperate
+  objectOperate,
+  conver
 }
