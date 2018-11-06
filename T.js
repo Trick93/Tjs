@@ -2,85 +2,80 @@
 let dateOperate = {
   /**
    * 按照指定格式格式化日期
-   * 
    * @param {any} time 时间戳-毫秒级
    * @param {any} fmt 格式化模板
-   * @returns 
+   * @returns time
    */
-  formatDate(time, fmt) {
+  formatDate (time, fmt) {
     let o = {
-      "M+": time.getMonth() + 1, // 月
-      "d+": time.getDate(), // 日
-      "h+": time.getHours(), // 小时
-      "m+": time.getMinutes(), // 分
-      "s+": time.getSeconds(), // 秒
-      "q+": Math.floor((time.getMonth() + 3) / 3), // 季度
-      "S": time.getMilliseconds() // 毫秒
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (time.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (let k in o)
-      if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
+      'M+': time.getMonth() + 1, // 月
+      'd+': time.getDate(), // 日
+      'h+': time.getHours(), // 小时
+      'm+': time.getMinutes(), // 分
+      's+': time.getSeconds(), // 秒
+      'q+': Math.floor((time.getMonth() + 3) / 3), // 季度
+      'S': time.getMilliseconds() // 毫秒
+    }
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (time.getFullYear() + '').substr(4 - RegExp.$1.length))
+    for (let k in o) {
+      if (new RegExp('(' + k + ')').test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+    }
+    return fmt
   },
   /**
    * 比较日期返回几天前
-   * 
    * @param {any} oldTime 要比较的时间
    * @param {any} nowTime 当前时间(可选,不传默认为当前时间)
-   * @returns 
+   * @returns time
    */
-  diffDate(oldTime, nowTime) {
-    if (!arguments.length) return '';
-    var arg = arguments,
-      now = arg[1] ? arg[1] : new Date().getTime(),
-      diffValue = now - arg[0],
-      result = '',
+  diffDate (oldTime, nowTime) {
+    if (!arguments.length) return ''
+    let arg = arguments
+    let now = arg[1] ? arg[1] : new Date().getTime()
+    let diffValue = now - arg[0]
+    let result = ''
+    let seconds = 1000
+    let minutes = 1000 * 60
+    let hours = 60 * minutes
+    let days = hours * 24
+    let _day = diffValue / days
+    let _hours = diffValue / hours
+    let _min = diffValue / minutes
+    let _sec = diffValue / seconds
 
-      seconds = 1000,
-      minutes = 1000 * 60,
-      hours = 60 * minutes,
-      days = hours * 24,
-
-      _day = diffValue / days,
-      _hours = diffValue / hours,
-      _min = diffValue / minutes,
-      _sec = diffValue / seconds;
-
-    if (_day > 3) result = dateOperate.formatDate(new Date(arg[0]), "yyyy-MM-dd hh:mm:ss");
-    else if (_day >= 1) result = parseInt(_day) + "天前";
-    else if (_hours >= 1) result = parseInt(_hours) + "小时前";
-    else if (_min >= 1) result = parseInt(_min) + "分钟前";
-    else result = parseInt(_sec) + "秒前";
-    return result;
+    if (_day > 3) result = dateOperate.formatDate(new Date(arg[0]), 'yyyy-MM-dd hh:mm:ss')
+    else if (_day >= 1) result = parseInt(_day) + '天前'
+    else if (_hours >= 1) result = parseInt(_hours) + '小时前'
+    else if (_min >= 1) result = parseInt(_min) + '分钟前'
+    else result = parseInt(_sec) + '秒前'
+    return result
   }
 }
 
 let formatOperate = {
   /**
    * 格式化mac
-   * 
    * @param {any} mac 要格式化的mac
    * @returns 
    */
   formatMac(mac) {
-    let str = "";
-    let lastIndex = 0;
+    let str = ''
+    let lastIndex = 0
     for (let i = 0; i < 6; i++) {
       if (i == 5) {
-        str += mac.substr(lastIndex, 2);
+        str += mac.substr(lastIndex, 2)
       } else {
-        str += mac.substr(lastIndex, 2) + ":";
-      };
-      lastIndex += 2;
+        str += mac.substr(lastIndex, 2) + ':'
+      }
+      lastIndex += 2
     }
-    return str;
+    return str
   }
 }
 
 let storageOperate = {
   /**
    * 设置存储
-   * 
    * @param {any} name 名字
    * @param {any} value 值
    * @param {any} mark 标记 1为localstorage 0为sessionStorage
@@ -94,7 +89,6 @@ let storageOperate = {
   },
   /**
    * 获取本地存储
-   * 
    * @param {any} name 名字
    * @param {any} mark 标记 1为localstorage 0为sessionStorage
    * @returns 
@@ -108,7 +102,6 @@ let storageOperate = {
   },
   /**
    * 删除本地存储
-   * 
    * @param {any} name 名字
    * @param {any} mark 标记 1为localstorage 0为sessionStorage
    */
@@ -124,19 +117,49 @@ let storageOperate = {
 let objectOperate = {
   /**
    * 判断是否为空对象
-   * 
    * @param {any} o 要判断的对象值
-   * @returns 
+   * @returns Boolean
    */
-  isEmptyObject(o) {
-    return Object.keys(o).length === 0 ? true : false
+  isEmptyObject (o) {
+    return Object.keys(o).length === 0
+  },
+  /**
+   * 优雅的链式取值方式
+   * @param {any} obj 对象的值
+   * @param {any} props 要取的值
+   * @param {any} def 默认值
+   * @returns string
+   */
+  _get (obj, props, def) {
+    if ((obj === null) || obj === null || typeof props !== 'string') return def
+    const temp = props.split('.')
+    const fieldArr = [].concat(temp)
+    temp.forEach((e, i) => {
+      if (/^(\w+)\[(\w+)\]$/.test(e)) {
+        const matchs = e.match(/^(\w+)\[(\w+)\]$/)
+        const field1 = matchs[1]
+        const field2 = matchs[2]
+        const index = fieldArr.indexOf(e)
+        fieldArr.splice(index, 1, field1, field2)
+      }
+    })
+    return fieldArr.reduce((pre, cur) => {
+      const target = pre[cur] || def
+
+      if (target instanceof Array) {
+        return [].concat(target)
+      }
+      if (target instanceof Object) {
+        return Object.assign({}, target)
+      }
+      return target
+    }, obj)
   }
 }
 
 let filter = {
   /**
    * 过滤html里面的特殊字符
-   * 
    * @param {any} str 要过滤的字符串
    * @param {any} reg 表达式
    * @returns str
@@ -188,5 +211,6 @@ export {
   formatOperate,
   storageOperate,
   objectOperate,
+  filter,
   conver
 }
